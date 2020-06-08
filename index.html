@@ -28,6 +28,37 @@
 
   <script>
     // 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
+    //triggers - things that will be hovered
+    const triggers = document.querySelectorAll('a');
+
+    const highlight = document.createElement('span'); //create a span
+    highlight.classList.add('highlight'); //add the highlight to it form the CSS
+    document.body.append(highlight); //add it to the DOM
+
+    //listen for when someone enters a link
+    function highlightLink() {
+      // console.dir(this);
+      const linkCoords = this.getBoundingClientRect();
+      console.log(linkCoords);
+      // fixing scroll issue
+      const coords = {
+        width: linkCoords.width,
+        height: linkCoords.height,
+        top: linkCoords.top + window.scrollY, //add Y scroll
+        left: linkCoords.left + window.scrollX //add X scroll
+      }
+
+      highlight.style.width = `${coords.width}px`;
+      highlight.style.height = `${coords.height}px`;
+      // highlight.style.top = `${linkCoords.top}px`;
+      // highlight.style.left = `${linkCoords.left}px`; //these still needs to adjust for scroll
+      highlight.style.transform = `translate(${coords.left}px, ${coords.top}px)`;
+    }
+
+    //event listeners...
+    triggers.forEach(a => {
+      a.addEventListener("mouseenter", highlightLink);
+    });
   </script>
 </body>
 </html>
